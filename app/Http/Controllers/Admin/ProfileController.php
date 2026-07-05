@@ -1,0 +1,64 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\OrganizationProfile;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
+
+class ProfileController extends Controller
+{
+    public function edit(): View
+    {
+        $profile = OrganizationProfile::query()->firstOrCreate(
+            ['slug' => 'dewan-dakwah-risalah'],
+            ['name' => 'DEWAN DAKWAH RISALAH']
+        );
+
+        return view('admin.profiles.edit', compact('profile'));
+    }
+
+    public function update(Request $request): RedirectResponse
+    {
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'tagline' => ['nullable', 'string', 'max:255'],
+            'hero_title' => ['nullable', 'string', 'max:255'],
+            'hero_subtitle' => ['nullable', 'string', 'max:255'],
+            'hero_image' => ['nullable', 'string', 'max:255'],
+            'logo_path' => ['nullable', 'string', 'max:255'],
+            'vision' => ['nullable', 'string'],
+            'mission' => ['nullable', 'string'],
+            'about' => ['nullable', 'string'],
+            'contact_email' => ['nullable', 'email', 'max:255'],
+            'contact_phone' => ['nullable', 'string', 'max:100'],
+            'address' => ['nullable', 'string'],
+            'logo_file' => ['nullable', 'image', 'max:4096'],
+            'hero_file' => ['nullable', 'image', 'max:6144'],
+        ]);
+
+        unset($data['logo_file'], $data['hero_file']);
+
+        $profile = OrganizationProfile::query()->firstOrFail();
+
+        if ($request->hasFile('logo_file')) {
+            $logoFile = $request->file('logo_file');
+            $logoName = 'logo_ddr_' . time() . '.' . $logoFile->getClientOriginalExtension();
+            $logoFile->move(public_path('mobilekit/img'), $logoName);
+            $data['logo_path'] = 'mobilekit/img/' . $logoName;
+        }
+
+        if ($request->hasFile('hero_file')) {
+            $heroFile = $request->file('hero_file');
+            $heroName = 'halamandepan_' . time() . '.' . $heroFile->getClientOriginalExtension();
+            $heroFile->move(public_path('mobilekit/img'), $heroName);
+            $data['hero_image'] = 'mobilekit/img/' . $heroName;
+        }
+
+        $profile->update($data);
+
+        return back()->with('status', 'Profil organisasi berhasil diperbarui.');
+    }
+}
