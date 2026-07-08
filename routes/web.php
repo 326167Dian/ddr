@@ -24,6 +24,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::middleware('auth')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::put('/dashboard/hero', [DashboardController::class, 'updateHero'])->name('dashboard.hero.update');
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
         Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');

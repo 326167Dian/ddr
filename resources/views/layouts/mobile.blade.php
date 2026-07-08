@@ -29,9 +29,17 @@
             background-size: cover;
             background-position: center;
             border-radius: 14px;
-            min-height: 210px;
+            min-height: 220px;
+            max-height: 72vh;
+            aspect-ratio: 16 / 9;
             position: relative;
             overflow: hidden;
+        }
+
+        .hero-cover-centered {
+            width: min(100%, 980px);
+            margin-inline: auto;
+            background-position: center center;
         }
 
         .hero-cover::after {
@@ -126,6 +134,21 @@
             animation-delay: .24s;
         }
 
+        @media (max-width: 992px) {
+            .hero-cover {
+                aspect-ratio: 3 / 2;
+                max-height: 62vh;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-cover {
+                aspect-ratio: 4 / 3;
+                min-height: 200px;
+                max-height: 56vh;
+            }
+        }
+
         @keyframes ddr-fade {
             to {
                 opacity: 1;
@@ -148,23 +171,31 @@
             </a>
         </div>
         <div class="pageTitle d-flex align-items-center gap-2">
-            <img src="{{ asset($profile->logo_path ?? 'mobilekit/img/logo_ddr.png') }}" alt="logo" class="org-logo">
-            <span>DDR</span>
+            <img src="{{ asset('logoddr.png') }}" alt="logo" class="org-logo">
         </div>
-        <div class="right">
-            <a href="{{ route('admin.login') }}" class="headerButton text-light">
-                <ion-icon name="log-in-outline"></ion-icon>
-            </a>
-        </div>
+        <div class="right"></div>
     </div>
 
     <div id="appCapsule">
         @yield('content')
 
         <div class="appFooter mt-4">
-            <img src="{{ asset($profile->logo_path ?? 'mobilekit/img/logo_ddr.png') }}" alt="logo" class="footer-logo mb-2">
+            <img src="{{ asset('logoddr.png') }}" alt="logo" class="footer-logo mb-2">
             <div class="footer-title">{{ $profile->name ?? 'DEWAN DAKWAH RISALAH' }}</div>
             <div>{{ $profile->tagline ?? 'Gerakan dakwah, edukasi, dan pelayanan umat.' }}</div>
+            @if(!empty($profile?->contact_email) || !empty($profile?->contact_phone) || !empty($profile?->address))
+                <div class="mt-2 text-secondary">
+                    @if(!empty($profile?->contact_email))
+                        <div>Email: {{ $profile->contact_email }}</div>
+                    @endif
+                    @if(!empty($profile?->contact_phone))
+                        <div>Telepon: {{ $profile->contact_phone }}</div>
+                    @endif
+                    @if(!empty($profile?->address))
+                        <div>Alamat: {{ $profile->address }}</div>
+                    @endif
+                </div>
+            @endif
         </div>
     </div>
 
@@ -190,7 +221,7 @@
         <div class="offcanvas-body">
             <div class="profileBox">
                 <div class="image-wrapper">
-                    <img src="{{ asset($profile->logo_path ?? 'mobilekit/img/logo_ddr.png') }}" alt="logo" class="imaged rounded">
+                    <img src="{{ asset('logoddr.png') }}" alt="logo" class="imaged rounded">
                 </div>
                 <div class="in">
                     <strong>{{ $profile->name ?? 'DEWAN DAKWAH RISALAH' }}</strong>
@@ -204,7 +235,6 @@
                 <li><a href="{{ route('history') }}" class="item"><div class="icon-box bg-primary"><ion-icon name="time-outline"></ion-icon></div><div class="in">Sejarah</div></a></li>
                 <li><a href="{{ route('activities') }}" class="item"><div class="icon-box bg-primary"><ion-icon name="calendar-outline"></ion-icon></div><div class="in">Kegiatan</div></a></li>
                 <li><a href="{{ route('articles') }}" class="item"><div class="icon-box bg-primary"><ion-icon name="newspaper-outline"></ion-icon></div><div class="in">Artikel</div></a></li>
-                <li><a href="{{ route('admin.login') }}" class="item"><div class="icon-box bg-primary"><ion-icon name="lock-closed-outline"></ion-icon></div><div class="in">Login Admin</div></a></li>
             </ul>
         </div>
     </div>

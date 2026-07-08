@@ -6,6 +6,45 @@
         <p class="text-secondary mb-0">Ringkasan cepat pengelolaan konten DEWAN DAKWAH RISALAH.</p>
     </div>
 
+    <div class="card panel-card mb-3">
+        <div class="card-body">
+            <h5 class="mb-1">Pengaturan Hero Dashboard Utama</h5>
+            <p class="text-secondary mb-2">Atur background image dan teks untuk banner beranda.</p>
+            <div class="mb-2">
+                <a href="{{ route('admin.profile.edit') }}" class="btn btn-outline-primary btn-sm">Buka Menu Profil (Tentang, Visi, Misi - CKEditor)</a>
+            </div>
+
+            <form method="POST" action="{{ route('admin.dashboard.hero.update') }}" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+
+                <div class="form-group basic">
+                    <label class="label">Judul di Dalam Image</label>
+                    <textarea name="hero_title" class="form-control" rows="2" maxlength="255" placeholder="Contoh: Halal Bihalal Dewan Dakwah Risalah 1446 H">{{ old('hero_title', $profile->hero_title) }}</textarea>
+                </div>
+
+                <div class="form-group basic">
+                    <label class="label">Subjudul di Dalam Image</label>
+                    <textarea name="hero_subtitle" class="form-control" rows="2" maxlength="255" placeholder="Contoh: Menyatukan langkah dakwah dalam ukhuwah islamiyah">{{ old('hero_subtitle', $profile->hero_subtitle) }}</textarea>
+                </div>
+
+                <div class="form-group basic">
+                    <label class="label">Upload Background Image (Maks 1 MB)</label>
+                    <input type="file" name="hero_file" class="form-control" accept="image/*">
+                    <small class="text-secondary">File gambar akan otomatis dipakai pada Dashboard Utama.</small>
+                </div>
+
+                <div class="form-group basic mb-2">
+                    <div class="preview-cover" style="height: 160px; border-radius: 12px;">
+                        <img src="{{ asset($profile->hero_image ?? 'mobilekit/img/sample/photo/wide4.jpg') }}" alt="Preview Hero" style="width:100%;height:100%;object-fit:cover;">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Simpan Pengaturan Hero</button>
+            </form>
+        </div>
+    </div>
+
     <div class="dashboard-grid">
         <div class="card stat-card"><div class="card-body"><div class="stat-meta">Pengurus Aktif</div><div class="stat-number">{{ $activeStructures }}</div><div class="stat-meta">dari {{ $totalStructures }} data struktur</div></div></div>
         <div class="card stat-card"><div class="card-body"><div class="stat-meta">Data Sejarah</div><div class="stat-number">{{ $totalHistories }}</div><div class="stat-meta">timeline organisasi tersimpan</div></div></div>

@@ -13,7 +13,7 @@
         }
 
         body { background: #f5f7f6; }
-        .admin-wrap { max-width: 980px; margin: 0 auto; padding: 20px 14px 80px; }
+        .admin-wrap { max-width: 980px; margin: 0 auto; padding: 82px 14px 80px; }
         .admin-nav a { margin-right: 8px; margin-bottom: 8px; }
         .editor-toolbar { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
         .editor-toolbar button { border: 1px solid #d2d8d4; background: #fff; border-radius: 6px; padding: 4px 10px; font-size: 12px; }
@@ -157,7 +157,7 @@
 <body>
     <div class="appHeader bg-primary text-light">
         <div class="left">
-            <a href="{{ route('home') }}" class="headerButton text-light"><ion-icon name="home-outline"></ion-icon></a>
+            <a href="{{ route('admin.dashboard') }}" class="headerButton text-light"><ion-icon name="home-outline"></ion-icon></a>
         </div>
         <div class="pageTitle">Admin DDR</div>
         <div class="right">

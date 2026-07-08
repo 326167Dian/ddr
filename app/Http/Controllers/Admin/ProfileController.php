@@ -36,7 +36,7 @@ class ProfileController extends Controller
             'contact_phone' => ['nullable', 'string', 'max:100'],
             'address' => ['nullable', 'string'],
             'logo_file' => ['nullable', 'image', 'max:4096'],
-            'hero_file' => ['nullable', 'image', 'max:6144'],
+            'hero_file' => ['nullable', 'image', 'max:1024'],
         ]);
 
         unset($data['logo_file'], $data['hero_file']);

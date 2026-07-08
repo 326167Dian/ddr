@@ -2,13 +2,15 @@
 
 @section('content')
     <div class="section mt-3 ddr-reveal">
-        <div class="hero-cover" style="background-image: url('{{ asset($profile->hero_image ?? 'mobilekit/img/sample/photo/wide4.jpg') }}')">
-            <div class="hero-content">
-                <span class="ddr-chip mb-2">Dashboard Utama</span>
-                <h2 class="mb-1">{{ $profile->hero_title ?? 'Halal Bihalal Dewan Dakwah Risalah 1446 H' }}</h2>
-                <p class="mb-0">{{ $profile->hero_subtitle ?? 'Menyatukan langkah dakwah dalam ukhuwah islamiyah.' }}</p>
-            </div>
+        <div class="text-center mb-2">
+            <span class="ddr-chip mb-2">Dashboard Utama</span>
+            <h2 class="mb-0">{{ $profile->hero_title ?? 'Halal Bihalal Dewan Dakwah Risalah 1446 H' }}</h2>
         </div>
+
+        <div class="hero-cover hero-cover-centered" style="background-image: url('{{ asset($profile->hero_image ?? 'mobilekit/img/sample/photo/wide4.jpg') }}')">
+        </div>
+
+        <p class="text-center fw-bold mt-2 mb-0">{{ $profile->hero_subtitle ?? 'Menyatukan langkah dakwah dalam ukhuwah islamiyah.' }}</p>
     </div>
 
     <div class="section mt-3 ddr-reveal ddr-reveal-delay-1">
@@ -16,10 +18,11 @@
             <div class="card-body">
                 <h6 class="card-subtitle">Tentang Organisasi</h6>
                 <h5 class="card-title">{{ $profile->name ?? 'DEWAN DAKWAH RISALAH' }}</h5>
-                <p class="mb-2">{{ $profile->about ?? 'Organisasi dakwah keislaman yang fokus pada pembinaan umat, edukasi, dan gerakan sosial.' }}</p>
-                <p class="mb-1"><strong>Visi:</strong> {{ $profile->vision ?? '-' }}</p>
+                <div class="mb-2">{!! $profile->about ?? 'Organisasi dakwah keislaman yang fokus pada pembinaan umat, edukasi, dan gerakan sosial.' !!}</div>
+                <p class="mb-1"><strong>Visi:</strong></p>
+                <div class="mb-2">{!! $profile->vision ?? '-' !!}</div>
                 <p class="mb-0"><strong>Misi:</strong></p>
-                <div style="white-space: pre-line">{{ $profile->mission ?? '-' }}</div>
+                <div>{!! $profile->mission ?? '-' !!}</div>
             </div>
         </div>
     </div>
