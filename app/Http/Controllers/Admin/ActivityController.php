@@ -149,6 +149,10 @@ class ActivityController extends Controller
             'index' => ['required', 'integer', 'min:0'],
         ]);
 
+        if (! Schema::hasColumn('organization_activities', 'gallery_images')) {
+            return back()->with('status', 'Foto galeri berhasil dihapus.');
+        }
+
         $galleryImages = is_array($activity->gallery_images) ? $activity->gallery_images : [];
 
         if (isset($galleryImages[$data['index']])) {
