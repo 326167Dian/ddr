@@ -8,7 +8,12 @@
             <div class="form-group basic"><label class="label">Judul</label><input name="title" class="form-control" value="{{ old('title') }}" required></div>
             <div class="form-group basic"><label class="label">Tanggal</label><input type="date" name="activity_date" class="form-control" value="{{ old('activity_date') }}"></div>
             <div class="form-group basic"><label class="label">Lokasi</label><input name="location" class="form-control" value="{{ old('location') }}"></div>
-            <div class="form-group basic"><label class="label">Upload Gambar</label><input type="file" name="image_file" class="form-control" accept="image/*"></div>
+            <div class="form-group basic"><label class="label">Upload Gambar Utama</label><input type="file" name="image_file" class="form-control" accept="image/*"></div>
+            <div class="form-group basic">
+                <label class="label">Upload Galeri Kegiatan</label>
+                <input type="file" name="gallery_files[]" class="form-control" accept="image/*" multiple>
+                <small class="text-muted">Maksimal 10 foto galeri per kegiatan dan maksimal 1 MB per foto.</small>
+            </div>
             <div class="form-group basic"><label class="label">Path Gambar</label><input name="image" class="form-control" value="{{ old('image') }}"></div>
             <div class="form-group basic"><label class="label">Deskripsi</label><textarea name="description" class="form-control" rows="4">{{ old('description') }}</textarea></div>
             <div class="form-check mb-2"><input class="form-check-input" type="checkbox" name="is_published" value="1" checked><label class="form-check-label">Publish</label></div>

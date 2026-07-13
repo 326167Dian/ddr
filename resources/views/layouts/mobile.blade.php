@@ -37,9 +37,11 @@
             border-radius: 14px;
             min-height: 220px;
             max-height: 72vh;
+            width: 100%;
             aspect-ratio: 16 / 9;
             position: relative;
             overflow: hidden;
+            background-repeat: no-repeat;
         }
 
         .hero-cover-centered {
@@ -196,6 +198,7 @@
                 aspect-ratio: 4 / 3;
                 min-height: 200px;
                 max-height: 56vh;
+                width: 100%;
             }
 
             .card-img-top {

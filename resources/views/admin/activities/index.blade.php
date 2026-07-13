@@ -24,6 +24,7 @@
                 <td>{{ $item->location }}</td>
                 <td>{{ $item->is_published ? 'Publish' : 'Draft' }}</td>
                 <td>
+                    <a href="{{ route('activities.show', $item) }}" class="btn btn-outline-primary btn-sm" target="_blank" rel="noopener">Preview Galeri</a>
                     <a href="{{ route('admin.activities.edit', $item) }}" class="btn btn-secondary btn-sm">Edit</a>
                     <form action="{{ route('admin.activities.destroy', $item) }}" method="POST" class="d-inline">@csrf @method('DELETE')<button class="btn btn-danger btn-sm" onclick="return confirm('Hapus data?')">Hapus</button></form>
                 </td>

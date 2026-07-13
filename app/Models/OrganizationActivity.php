@@ -15,12 +15,14 @@ class OrganizationActivity extends Model
         'activity_date',
         'location',
         'image',
+        'gallery_images',
         'sort_order',
         'is_published',
     ];
 
     protected $casts = [
         'activity_date' => 'date',
+        'gallery_images' => 'array',
         'is_published' => 'boolean',
     ];
 }

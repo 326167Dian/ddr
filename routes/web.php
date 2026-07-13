@@ -36,6 +36,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/histories/reorder', [HistoryController::class, 'reorder'])->name('histories.reorder');
         Route::resource('/activities', ActivityController::class)->except('show')->names('activities');
         Route::post('/activities/reorder', [ActivityController::class, 'reorder'])->name('activities.reorder');
+        Route::post('/activities/{activity}/gallery/remove', [ActivityController::class, 'removeGalleryImage'])->name('activities.gallery.remove');
         Route::resource('/articles', ArticleController::class)->except('show')->names('articles');
         Route::post('/articles/reorder', [ArticleController::class, 'reorder'])->name('articles.reorder');
     });

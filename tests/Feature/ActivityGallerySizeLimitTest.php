@@ -1,0 +1,48 @@
+<?php
+
+namespace Tests\Feature;
+
+use App\Http\Controllers\Admin\ActivityController;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
+
+class ActivityGallerySizeLimitTest extends TestCase
+{
+    public function test_activity_gallery_upload_is_limited_to_one_megabyte_per_file(): void
+    {
+        $this->expectException(ValidationException::class);
+
+        Schema::dropIfExists('organization_activities');
+
+        Schema::create('organization_activities', function (Blueprint $table) {
+            $table->id();
+            $table->string('title');
+            $table->text('description')->nullable();
+            $table->date('activity_date')->nullable();
+            $table->string('location')->nullable();
+            $table->string('image')->nullable();
+            $table->json('gallery_images')->nullable();
+            $table->unsignedInteger('sort_order')->default(0);
+            $table->boolean('is_published')->default(true);
+            $table->timestamps();
+        });
+
+        $request = Request::create('/admin/activities', 'POST', [
+            'title' => 'Kajian Rutin',
+            'description' => 'Dokumentasi kegiatan.',
+            'activity_date' => now()->toDateString(),
+            'location' => 'Masjid Pusat',
+            'is_published' => true,
+        ], [], [
+            'gallery_files' => [
+                UploadedFile::fake()->create('gallery-over-limit.jpg', 1100, 'image/jpeg'),
+            ],
+        ]);
+
+        (new ActivityController())->store($request);
+    }
+}
