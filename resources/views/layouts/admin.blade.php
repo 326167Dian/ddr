@@ -94,16 +94,16 @@
             background: linear-gradient(90deg, #0b5d37, #87a03d);
         }
         .member-photo-preview {
-            width: 56px;
-            height: 56px;
+            width: min(56px, 18vw);
+            height: min(56px, 18vw);
             object-fit: cover;
             border-radius: 14px;
             border: 2px solid #fff;
             box-shadow: 0 4px 12px rgba(11, 93, 55, 0.15);
         }
         .form-image-preview {
-            width: 96px;
-            height: 96px;
+            width: min(96px, 28vw);
+            height: min(96px, 28vw);
             object-fit: cover;
             border-radius: 18px;
             border: 1px solid rgba(11, 93, 55, 0.1);

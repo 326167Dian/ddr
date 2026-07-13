@@ -25,6 +25,12 @@
                 linear-gradient(180deg, #f3faea 0%, #e2f1da 42%, #f8fbf6 100%);
         }
 
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
         .hero-cover {
             background-size: cover;
             background-position: center;
@@ -70,9 +76,17 @@
             padding: 4px;
         }
 
+        .card-img-top {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            display: block;
+        }
+
         .member-photo-preview {
-            width: 72px;
-            height: 72px;
+            width: min(72px, 22vw);
+            height: min(72px, 22vw);
             object-fit: cover;
             border-radius: 18px;
             border: 2px solid #fff;
@@ -182,6 +196,10 @@
                 aspect-ratio: 4 / 3;
                 min-height: 200px;
                 max-height: 56vh;
+            }
+
+            .card-img-top {
+                aspect-ratio: 4 / 3;
             }
 
             .prayer-ticker-track {
