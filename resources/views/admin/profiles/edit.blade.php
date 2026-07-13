@@ -16,6 +16,18 @@
                 <div class="form-group basic"><label class="label">Path Gambar Depan (halamandepan.png)</label><input class="form-control" name="hero_image" value="{{ old('hero_image', $profile->hero_image) }}"></div>
                 <div class="form-group basic"><label class="label">Path Logo (logo_ddr.png)</label><input class="form-control" name="logo_path" value="{{ old('logo_path', $profile->logo_path) }}"></div>
                 <div class="form-group basic">
+                    <label class="label">Kota Jadwal Sholat</label>
+                    <select class="form-control" name="prayer_city_code">
+                        @php($selectedPrayerCity = old('prayer_city_code', $profile->prayer_city_code ?? 'solok'))
+                        <option value="solok" {{ $selectedPrayerCity === 'solok' ? 'selected' : '' }}>Kota Solok</option>
+                        <option value="padang" {{ $selectedPrayerCity === 'padang' ? 'selected' : '' }}>Kota Padang</option>
+                        <option value="jakarta" {{ $selectedPrayerCity === 'jakarta' ? 'selected' : '' }}>DKI Jakarta</option>
+                        <option value="bandung" {{ $selectedPrayerCity === 'bandung' ? 'selected' : '' }}>Kota Bandung</option>
+                        <option value="yogyakarta" {{ $selectedPrayerCity === 'yogyakarta' ? 'selected' : '' }}>Kota Yogyakarta</option>
+                        <option value="surabaya" {{ $selectedPrayerCity === 'surabaya' ? 'selected' : '' }}>Kota Surabaya</option>
+                    </select>
+                </div>
+                <div class="form-group basic">
                     <label class="label">Visi (CKEditor)</label>
                     <textarea id="profile-vision" class="form-control" rows="4" name="vision">{{ old('vision', $profile->vision) }}</textarea>
                 </div>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\OrganizationActivity;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class ActivityController extends Controller
@@ -43,7 +44,7 @@ class ActivityController extends Controller
         if ($request->hasFile('image_file')) {
             $imageFile = $request->file('image_file');
             $imageName = 'kegiatan_' . time() . '_' . mt_rand(100, 999) . '.' . $imageFile->getClientOriginalExtension();
-            $imageFile->move(public_path('mobilekit/img'), $imageName);
+            Storage::disk('public')->putFileAs('mobilekit/img', $imageFile, $imageName);
             $data['image'] = 'mobilekit/img/' . $imageName;
         }
 
@@ -79,7 +80,7 @@ class ActivityController extends Controller
         if ($request->hasFile('image_file')) {
             $imageFile = $request->file('image_file');
             $imageName = 'kegiatan_' . time() . '_' . mt_rand(100, 999) . '.' . $imageFile->getClientOriginalExtension();
-            $imageFile->move(public_path('mobilekit/img'), $imageName);
+            Storage::disk('public')->putFileAs('mobilekit/img', $imageFile, $imageName);
             $data['image'] = 'mobilekit/img/' . $imageName;
         }
 

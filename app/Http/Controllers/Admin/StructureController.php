@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\OrganizationStructure;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class StructureController extends Controller
@@ -39,7 +40,7 @@ class StructureController extends Controller
         if ($request->hasFile('photo_file')) {
             $photoFile = $request->file('photo_file');
             $photoName = 'struktur_' . time() . '_' . mt_rand(100, 999) . '.' . $photoFile->getClientOriginalExtension();
-            $photoFile->move(public_path('mobilekit/img'), $photoName);
+            Storage::disk('public')->putFileAs('mobilekit/img', $photoFile, $photoName);
             $data['photo'] = 'mobilekit/img/' . $photoName;
         }
 
@@ -73,7 +74,7 @@ class StructureController extends Controller
         if ($request->hasFile('photo_file')) {
             $photoFile = $request->file('photo_file');
             $photoName = 'struktur_' . time() . '_' . mt_rand(100, 999) . '.' . $photoFile->getClientOriginalExtension();
-            $photoFile->move(public_path('mobilekit/img'), $photoName);
+            Storage::disk('public')->putFileAs('mobilekit/img', $photoFile, $photoName);
             $data['photo'] = 'mobilekit/img/' . $photoName;
         }
 

@@ -17,6 +17,7 @@ class OrganizationProfile extends Model
         'hero_subtitle',
         'hero_image',
         'logo_path',
+        'prayer_city_code',
         'vision',
         'mission',
         'about',

@@ -2,8 +2,21 @@
 
 @section('content')
     <div class="section mt-3 ddr-reveal">
+        @if(!empty($prayerTicker))
+            <div class="prayer-ticker-wrap mb-2" aria-label="Jadwal sholat hari ini">
+                <div class="prayer-ticker-label">Jadwal Sholat</div>
+                <div class="prayer-ticker-viewport">
+                    <div class="prayer-ticker-track">{{ $prayerTicker }}</div>
+                </div>
+            </div>
+        @else
+            <div class="prayer-ticker-wrap mb-2 px-2 py-1 text-center" aria-label="Info jadwal sholat">
+                Jadwal sholat sementara belum tersedia.
+            </div>
+        @endif
+
         <div class="text-center mb-2">
-            <span class="ddr-chip mb-2">Dashboard Utama</span>
+            {{-- <span class="ddr-chip mb-2">Dashboard Utama</span> --}}
             <h2 class="mb-0">{{ $profile->hero_title ?? 'Halal Bihalal Dewan Dakwah Risalah 1446 H' }}</h2>
         </div>
 

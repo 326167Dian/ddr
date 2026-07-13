@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\OrganizationArticle;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
@@ -46,7 +47,7 @@ class ArticleController extends Controller
         if ($request->hasFile('cover_file')) {
             $coverFile = $request->file('cover_file');
             $coverName = 'artikel_' . time() . '_' . mt_rand(100, 999) . '.' . $coverFile->getClientOriginalExtension();
-            $coverFile->move(public_path('mobilekit/img'), $coverName);
+            Storage::disk('public')->putFileAs('mobilekit/img', $coverFile, $coverName);
             $data['cover_image'] = 'mobilekit/img/' . $coverName;
         }
 
@@ -84,7 +85,7 @@ class ArticleController extends Controller
         if ($request->hasFile('cover_file')) {
             $coverFile = $request->file('cover_file');
             $coverName = 'artikel_' . time() . '_' . mt_rand(100, 999) . '.' . $coverFile->getClientOriginalExtension();
-            $coverFile->move(public_path('mobilekit/img'), $coverName);
+            Storage::disk('public')->putFileAs('mobilekit/img', $coverFile, $coverName);
             $data['cover_image'] = 'mobilekit/img/' . $coverName;
         }
 

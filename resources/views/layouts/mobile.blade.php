@@ -116,6 +116,42 @@
             color: var(--ddr-dark);
         }
 
+        .prayer-ticker-wrap {
+            display: flex;
+            align-items: center;
+            border-radius: 10px;
+            border: 1px solid rgba(11, 93, 55, 0.18);
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.92), rgba(231, 243, 232, 0.95));
+            color: var(--ddr-dark);
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(6, 58, 36, 0.08);
+        }
+
+        .prayer-ticker-label {
+            flex: 0 0 auto;
+            padding: 8px 10px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: .01em;
+            background: rgba(11, 93, 55, 0.12);
+            border-right: 1px solid rgba(11, 93, 55, 0.12);
+        }
+
+        .prayer-ticker-viewport {
+            flex: 1;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .prayer-ticker-track {
+            display: inline-block;
+            padding: 8px 0;
+            padding-left: 24px;
+            font-size: 13px;
+            font-weight: 700;
+            animation: prayer-ticker-scroll 30s linear infinite;
+        }
+
         .ddr-reveal {
             opacity: 0;
             transform: translateY(12px);
@@ -146,6 +182,35 @@
                 aspect-ratio: 4 / 3;
                 min-height: 200px;
                 max-height: 56vh;
+            }
+
+            .prayer-ticker-track {
+                font-size: 12px;
+                animation-duration: 24s;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .prayer-ticker-track {
+                animation: none;
+                padding-left: 0;
+                display: block;
+                text-align: center;
+                white-space: normal;
+            }
+
+            .prayer-ticker-label {
+                display: none;
+            }
+        }
+
+        @keyframes prayer-ticker-scroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-100%);
             }
         }
 

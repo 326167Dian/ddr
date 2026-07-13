@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\OrganizationProfile;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
@@ -29,6 +30,7 @@ class ProfileController extends Controller
             'hero_subtitle' => ['nullable', 'string', 'max:255'],
             'hero_image' => ['nullable', 'string', 'max:255'],
             'logo_path' => ['nullable', 'string', 'max:255'],
+            'prayer_city_code' => ['nullable', 'string', 'in:solok,padang,jakarta,bandung,yogyakarta,surabaya'],
             'vision' => ['nullable', 'string'],
             'mission' => ['nullable', 'string'],
             'about' => ['nullable', 'string'],
@@ -46,14 +48,14 @@ class ProfileController extends Controller
         if ($request->hasFile('logo_file')) {
             $logoFile = $request->file('logo_file');
             $logoName = 'logo_ddr_' . time() . '.' . $logoFile->getClientOriginalExtension();
-            $logoFile->move(public_path('mobilekit/img'), $logoName);
+            Storage::disk('public')->putFileAs('mobilekit/img', $logoFile, $logoName);
             $data['logo_path'] = 'mobilekit/img/' . $logoName;
         }
 
         if ($request->hasFile('hero_file')) {
             $heroFile = $request->file('hero_file');
             $heroName = 'halamandepan_' . time() . '.' . $heroFile->getClientOriginalExtension();
-            $heroFile->move(public_path('mobilekit/img'), $heroName);
+            Storage::disk('public')->putFileAs('mobilekit/img', $heroFile, $heroName);
             $data['hero_image'] = 'mobilekit/img/' . $heroName;
         }
 
