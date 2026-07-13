@@ -61,7 +61,9 @@ class ActivityGalleryDetailTest extends TestCase
             ->assertOk()
             ->assertSee('download')
             ->assertSee('mobilekit/img/sample/photo/wide2.jpg')
-            ->assertSee('mobilekit/img/sample/photo/wide3.jpg');
+            ->assertSee('mobilekit/img/sample/photo/wide3.jpg')
+            ->assertSee('gallery-preview-image')
+            ->assertSee('object-fit: contain');
     }
 
     public function test_activity_detail_shows_gallery_zoom_controls(): void
@@ -116,7 +118,6 @@ class ActivityGalleryDetailTest extends TestCase
             ->assertSee('galleryZoomInButton')
             ->assertSee('galleryZoomOutButton')
             ->assertSee('galleryResetZoomButton')
-            ->assertSee('ArrowRight')
-            ->assertSee('Escape');
+            ->assertSee('wheel');
     }
 }

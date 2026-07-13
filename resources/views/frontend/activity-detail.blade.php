@@ -22,7 +22,7 @@
                             <div class="col-6 col-md-4">
                                 <button type="button" class="btn btn-link p-0 border-0 w-100 text-start gallery-preview-trigger" data-gallery-image="{{ asset($galleryImage) }}" data-bs-toggle="modal" data-bs-target="#galleryPreviewModal">
                                     <div class="card h-100 border-0 shadow-sm overflow-hidden">
-                                        <img src="{{ asset($galleryImage) }}" class="card-img-top" alt="Dokumentasi kegiatan" style="height:160px; object-fit:cover;">
+                                        <img src="{{ asset($galleryImage) }}" class="card-img-top" alt="Dokumentasi kegiatan" style="height:180px; object-fit:contain; padding:10px; background:#f5f8f3;">
                                         <div class="card-body p-2 text-center">
                                             <span class="btn btn-sm btn-primary w-100">Preview</span>
                                         </div>
@@ -45,8 +45,8 @@
                 </div>
                 <div class="modal-body d-flex align-items-center justify-content-center p-0 position-relative">
                     <button type="button" id="galleryPrevButton" class="btn btn-light rounded-circle position-absolute start-0 ms-3 d-flex align-items-center justify-content-center" style="width:46px; height:46px; z-index:2;" aria-label="Foto sebelumnya">‹</button>
-                    <div class="d-flex align-items-center justify-content-center w-100 h-100 position-relative">
-                        <img id="galleryPreviewImage" src="" alt="Preview foto kegiatan" style="max-width:100%; max-height:calc(100vh - 120px); width:auto; height:auto; object-fit:contain; border-radius:12px; transition:transform .2s ease; transform:scale(1);">
+                    <div class="d-flex align-items-center justify-content-center w-100 h-100 position-relative gallery-preview-viewport">
+                        <img id="galleryPreviewImage" src="" alt="Preview foto kegiatan" class="gallery-preview-image" style="transition:transform .2s ease; transform:scale(1);">
                     </div>
                     <button type="button" id="galleryNextButton" class="btn btn-light rounded-circle position-absolute end-0 me-3 d-flex align-items-center justify-content-center" style="width:46px; height:46px; z-index:2;" aria-label="Foto berikutnya">›</button>
                     <div class="position-absolute bottom-0 start-50 translate-middle-x mb-3 d-flex gap-2" style="z-index:3;">
@@ -66,6 +66,38 @@
         <a href="{{ route('activities') }}" class="btn btn-primary btn-block">Kembali ke Daftar Kegiatan</a>
     </div>
 @endsection
+
+@push('styles')
+    <style>
+        .gallery-preview-viewport {
+            padding: 24px;
+            min-height: calc(100vh - 130px);
+            overflow: auto;
+        }
+
+        .gallery-preview-image {
+            max-width: calc(100vw - 120px);
+            max-height: calc(100vh - 180px);
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: 12px;
+            display: block;
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        @media (max-width: 768px) {
+            .gallery-preview-viewport {
+                padding: 14px;
+            }
+
+            .gallery-preview-image {
+                max-width: calc(100vw - 40px);
+                max-height: calc(100vh - 220px);
+            }
+        }
+    </style>
+@endpush
 
 @push('scripts')
     <script>
@@ -148,6 +180,20 @@
                     updatePreview(nextIndex);
                 }
             }, { passive: true });
+
+            previewModal.addEventListener('wheel', function (event) {
+                if (! previewModal.classList.contains('show')) {
+                    return;
+                }
+
+                event.preventDefault();
+
+                if (event.deltaY < 0) {
+                    updateZoom(currentScale + 0.2);
+                } else {
+                    updateZoom(currentScale - 0.2);
+                }
+            }, { passive: false });
 
             document.addEventListener('keydown', function (event) {
                 if (! previewModal.classList.contains('show')) {
