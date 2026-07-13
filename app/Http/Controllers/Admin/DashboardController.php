@@ -10,7 +10,6 @@ use App\Models\OrganizationProfile;
 use App\Models\OrganizationStructure;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class DashboardController extends Controller
@@ -57,7 +56,13 @@ class DashboardController extends Controller
         if ($request->hasFile('hero_file')) {
             $heroFile = $request->file('hero_file');
             $heroName = 'halamandepan_' . time() . '.' . $heroFile->getClientOriginalExtension();
-            Storage::disk('public')->putFileAs('mobilekit/img', $heroFile, $heroName);
+            $targetDir = rtrim($_SERVER['DOCUMENT_ROOT'] ?? public_path(), DIRECTORY_SEPARATOR)
+                . DIRECTORY_SEPARATOR . 'mobilekit'
+                . DIRECTORY_SEPARATOR . 'img';
+            if (! is_dir($targetDir)) {
+                mkdir($targetDir, 0755, true);
+            }
+            $heroFile->move($targetDir, $heroName);
             $data['hero_image'] = 'mobilekit/img/' . $heroName;
         }
 

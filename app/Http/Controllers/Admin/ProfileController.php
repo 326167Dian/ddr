@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\OrganizationProfile;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
@@ -48,15 +48,31 @@ class ProfileController extends Controller
         if ($request->hasFile('logo_file')) {
             $logoFile = $request->file('logo_file');
             $logoName = 'logo_ddr_' . time() . '.' . $logoFile->getClientOriginalExtension();
-            Storage::disk('public')->putFileAs('mobilekit/img', $logoFile, $logoName);
+            $targetDir = rtrim($_SERVER['DOCUMENT_ROOT'] ?? public_path(), DIRECTORY_SEPARATOR)
+                . DIRECTORY_SEPARATOR . 'mobilekit'
+                . DIRECTORY_SEPARATOR . 'img';
+            if (! is_dir($targetDir)) {
+                mkdir($targetDir, 0755, true);
+            }
+            $logoFile->move($targetDir, $logoName);
             $data['logo_path'] = 'mobilekit/img/' . $logoName;
         }
 
         if ($request->hasFile('hero_file')) {
             $heroFile = $request->file('hero_file');
             $heroName = 'halamandepan_' . time() . '.' . $heroFile->getClientOriginalExtension();
-            Storage::disk('public')->putFileAs('mobilekit/img', $heroFile, $heroName);
+            $targetDir = rtrim($_SERVER['DOCUMENT_ROOT'] ?? public_path(), DIRECTORY_SEPARATOR)
+                . DIRECTORY_SEPARATOR . 'mobilekit'
+                . DIRECTORY_SEPARATOR . 'img';
+            if (! is_dir($targetDir)) {
+                mkdir($targetDir, 0755, true);
+            }
+            $heroFile->move($targetDir, $heroName);
             $data['hero_image'] = 'mobilekit/img/' . $heroName;
+        }
+
+        if (! Schema::hasColumn('organization_profiles', 'prayer_city_code')) {
+            unset($data['prayer_city_code']);
         }
 
         $profile->update($data);

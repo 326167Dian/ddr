@@ -8,9 +8,11 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('organization_profiles', function (Blueprint $table) {
-            $table->string('prayer_city_code', 50)->default('solok')->after('logo_path');
-        });
+        if (! Schema::hasColumn('organization_profiles', 'prayer_city_code')) {
+            Schema::table('organization_profiles', function (Blueprint $table) {
+                $table->string('prayer_city_code', 50)->default('solok')->after('logo_path');
+            });
+        }
     }
 
     public function down(): void

@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\OrganizationArticle;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
@@ -47,7 +46,13 @@ class ArticleController extends Controller
         if ($request->hasFile('cover_file')) {
             $coverFile = $request->file('cover_file');
             $coverName = 'artikel_' . time() . '_' . mt_rand(100, 999) . '.' . $coverFile->getClientOriginalExtension();
-            Storage::disk('public')->putFileAs('mobilekit/img', $coverFile, $coverName);
+            $targetDir = rtrim($_SERVER['DOCUMENT_ROOT'] ?? public_path(), DIRECTORY_SEPARATOR)
+                . DIRECTORY_SEPARATOR . 'mobilekit'
+                . DIRECTORY_SEPARATOR . 'img';
+            if (! is_dir($targetDir)) {
+                mkdir($targetDir, 0755, true);
+            }
+            $coverFile->move($targetDir, $coverName);
             $data['cover_image'] = 'mobilekit/img/' . $coverName;
         }
 
@@ -85,7 +90,13 @@ class ArticleController extends Controller
         if ($request->hasFile('cover_file')) {
             $coverFile = $request->file('cover_file');
             $coverName = 'artikel_' . time() . '_' . mt_rand(100, 999) . '.' . $coverFile->getClientOriginalExtension();
-            Storage::disk('public')->putFileAs('mobilekit/img', $coverFile, $coverName);
+            $targetDir = rtrim($_SERVER['DOCUMENT_ROOT'] ?? public_path(), DIRECTORY_SEPARATOR)
+                . DIRECTORY_SEPARATOR . 'mobilekit'
+                . DIRECTORY_SEPARATOR . 'img';
+            if (! is_dir($targetDir)) {
+                mkdir($targetDir, 0755, true);
+            }
+            $coverFile->move($targetDir, $coverName);
             $data['cover_image'] = 'mobilekit/img/' . $coverName;
         }
 

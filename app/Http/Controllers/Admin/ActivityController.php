@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\OrganizationActivity;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class ActivityController extends Controller
@@ -44,7 +43,13 @@ class ActivityController extends Controller
         if ($request->hasFile('image_file')) {
             $imageFile = $request->file('image_file');
             $imageName = 'kegiatan_' . time() . '_' . mt_rand(100, 999) . '.' . $imageFile->getClientOriginalExtension();
-            Storage::disk('public')->putFileAs('mobilekit/img', $imageFile, $imageName);
+            $targetDir = rtrim($_SERVER['DOCUMENT_ROOT'] ?? public_path(), DIRECTORY_SEPARATOR)
+                . DIRECTORY_SEPARATOR . 'mobilekit'
+                . DIRECTORY_SEPARATOR . 'img';
+            if (! is_dir($targetDir)) {
+                mkdir($targetDir, 0755, true);
+            }
+            $imageFile->move($targetDir, $imageName);
             $data['image'] = 'mobilekit/img/' . $imageName;
         }
 
@@ -80,7 +85,13 @@ class ActivityController extends Controller
         if ($request->hasFile('image_file')) {
             $imageFile = $request->file('image_file');
             $imageName = 'kegiatan_' . time() . '_' . mt_rand(100, 999) . '.' . $imageFile->getClientOriginalExtension();
-            Storage::disk('public')->putFileAs('mobilekit/img', $imageFile, $imageName);
+            $targetDir = rtrim($_SERVER['DOCUMENT_ROOT'] ?? public_path(), DIRECTORY_SEPARATOR)
+                . DIRECTORY_SEPARATOR . 'mobilekit'
+                . DIRECTORY_SEPARATOR . 'img';
+            if (! is_dir($targetDir)) {
+                mkdir($targetDir, 0755, true);
+            }
+            $imageFile->move($targetDir, $imageName);
             $data['image'] = 'mobilekit/img/' . $imageName;
         }
 
