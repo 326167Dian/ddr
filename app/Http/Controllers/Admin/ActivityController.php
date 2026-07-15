@@ -30,6 +30,7 @@ class ActivityController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $this->ensureGalleryUploadLimit($request);
+        $this->normalizeYoutubeUrl($request);
 
         $data = $request->validate([
             'title' => ['required', 'string', 'max:255'],
@@ -40,13 +41,19 @@ class ActivityController extends Controller
             'image_file' => ['nullable', 'image', 'max:6144'],
             'gallery_files' => ['nullable', 'array'],
             'gallery_files.*' => ['image', 'max:1024'],
+            'youtube_url' => ['nullable', 'url', 'max:255'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
             'is_published' => ['nullable', 'boolean'],
         ], [
             'gallery_files.*.max' => 'Maksimal ukuran tiap foto galeri adalah 1 MB.',
+            'youtube_url.url' => 'Link YouTube tidak valid.',
         ]);
 
         unset($data['image_file'], $data['gallery_files']);
+
+        if (! Schema::hasColumn('organization_activities', 'youtube_url')) {
+            unset($data['youtube_url']);
+        }
 
         if ($request->hasFile('image_file')) {
             $data['image'] = $this->moveUploadedAssetToPublic($request->file('image_file'), 'kegiatan');
@@ -79,6 +86,7 @@ class ActivityController extends Controller
     public function update(Request $request, OrganizationActivity $activity): RedirectResponse
     {
         $this->ensureGalleryUploadLimit($request);
+        $this->normalizeYoutubeUrl($request);
 
         $data = $request->validate([
             'title' => ['required', 'string', 'max:255'],
@@ -89,13 +97,19 @@ class ActivityController extends Controller
             'image_file' => ['nullable', 'image', 'max:6144'],
             'gallery_files' => ['nullable', 'array'],
             'gallery_files.*' => ['image', 'max:1024'],
+            'youtube_url' => ['nullable', 'url', 'max:255'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
             'is_published' => ['nullable', 'boolean'],
         ], [
             'gallery_files.*.max' => 'Maksimal ukuran tiap foto galeri adalah 1 MB.',
+            'youtube_url.url' => 'Link YouTube tidak valid.',
         ]);
 
         unset($data['image_file'], $data['gallery_files']);
+
+        if (! Schema::hasColumn('organization_activities', 'youtube_url')) {
+            unset($data['youtube_url']);
+        }
 
         if ($request->hasFile('image_file')) {
             $data['image'] = $this->moveUploadedAssetToPublic($request->file('image_file'), 'kegiatan');
@@ -173,6 +187,21 @@ class ActivityController extends Controller
                 'gallery_files' => ['Maksimal 10 foto galeri per kegiatan.'],
             ]);
         }
+    }
+
+    private function normalizeYoutubeUrl(Request $request): void
+    {
+        $youtubeUrl = trim((string) $request->input('youtube_url'));
+
+        if ($youtubeUrl === '') {
+            return;
+        }
+
+        if (! preg_match('#^https?://#i', $youtubeUrl)) {
+            $youtubeUrl = 'https://' . $youtubeUrl;
+        }
+
+        $request->merge(['youtube_url' => $youtubeUrl]);
     }
 
     private function moveUploadedAssetToPublic($uploadedFile, string $prefix): string

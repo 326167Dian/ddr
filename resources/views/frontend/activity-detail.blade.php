@@ -14,6 +14,21 @@
             </div>
         </div>
 
+        @if ($activity->youtube_embed_url)
+            <div class="card ddr-soft-card mt-3">
+                <div class="card-body">
+                    <h5 class="mb-3">Video Kegiatan</h5>
+                    <div class="youtube-embed">
+                        <iframe src="{{ $activity->youtube_embed_url }}" title="Video kegiatan"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen></iframe>
+                    </div>
+                    <a href="{{ $activity->youtube_url }}" target="_blank" rel="noopener"
+                        class="btn btn-sm btn-outline-primary mt-2">Video tidak bisa diputar? Tonton di YouTube</a>
+                </div>
+            </div>
+        @endif
+
         @if (!empty($activity->gallery_images))
             <div class="card ddr-soft-card mt-3">
                 <div class="card-body">
@@ -64,6 +79,24 @@
 
 @push('styles')
     <style>
+        .youtube-embed {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .youtube-embed iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+            display: block;
+        }
+
         .gallery-preview-trigger {
             display: block;
             width: 100%;

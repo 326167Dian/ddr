@@ -16,6 +16,7 @@ class OrganizationActivity extends Model
         'location',
         'image',
         'gallery_images',
+        'youtube_url',
         'sort_order',
         'is_published',
     ];
@@ -25,4 +26,19 @@ class OrganizationActivity extends Model
         'gallery_images' => 'array',
         'is_published' => 'boolean',
     ];
+
+    public function getYoutubeEmbedUrlAttribute(): ?string
+    {
+        if (! $this->youtube_url) {
+            return null;
+        }
+
+        $pattern = '/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/';
+
+        if (! preg_match($pattern, $this->youtube_url, $matches)) {
+            return null;
+        }
+
+        return 'https://www.youtube.com/embed/' . $matches[1];
+    }
 }
