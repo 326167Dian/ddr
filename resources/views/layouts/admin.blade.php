@@ -181,6 +181,7 @@
                 <a href="{{ route('admin.histories.index') }}" class="btn btn-sm btn-primary">Sejarah</a>
                 <a href="{{ route('admin.activities.index') }}" class="btn btn-sm btn-primary">Kegiatan</a>
                 <a href="{{ route('admin.articles.index') }}" class="btn btn-sm btn-primary">Artikel</a>
+                <a href="{{ route('admin.news.index') }}" class="btn btn-sm btn-primary">Berita</a>
             </div>
         @endauth
 

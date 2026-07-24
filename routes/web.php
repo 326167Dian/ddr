@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\HistoryController;
+use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\StructureController;
 use App\Http\Controllers\FrontendController;
@@ -17,6 +18,8 @@ Route::get('/kegiatan-organisasi', [FrontendController::class, 'activities'])->n
 Route::get('/kegiatan-organisasi/{activity}', [FrontendController::class, 'activityDetail'])->name('activities.show');
 Route::get('/artikel', [FrontendController::class, 'articles'])->name('articles');
 Route::get('/artikel/{slug}', [FrontendController::class, 'articleDetail'])->name('articles.show');
+Route::get('/berita', [FrontendController::class, 'news'])->name('news');
+Route::get('/berita/{slug}', [FrontendController::class, 'newsDetail'])->name('news.show');
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -39,5 +42,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/activities/{activity}/gallery/remove', [ActivityController::class, 'removeGalleryImage'])->name('activities.gallery.remove');
         Route::resource('/articles', ArticleController::class)->except('show')->names('articles');
         Route::post('/articles/reorder', [ArticleController::class, 'reorder'])->name('articles.reorder');
+        Route::resource('/news', NewsController::class)->except('show')->names('news');
+        Route::post('/news/reorder', [NewsController::class, 'reorder'])->name('news.reorder');
+        Route::post('/news/{news}/gallery/remove', [NewsController::class, 'removeGalleryImage'])->name('news.gallery.remove');
     });
 });

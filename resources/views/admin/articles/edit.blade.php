@@ -16,7 +16,7 @@
                     <div class="form-group basic"><label class="label">Excerpt</label><textarea id="article-excerpt" name="excerpt" class="form-control" rows="2">{{ old('excerpt', $article->excerpt) }}</textarea></div>
                     <div class="form-group basic">
                         <label class="label">Konten Artikel</label>
-                        <textarea id="article-content" name="content" class="form-control" rows="10" required>{{ old('content', $article->content) }}</textarea>
+                        <textarea id="article-content" name="content" class="form-control" rows="10">{{ old('content', $article->content) }}</textarea>
                     </div>
                 </div>
 
@@ -86,6 +86,8 @@
         updateTextPreview();
         updateCoverPreview();
 
+        const form = document.getElementById('article-content').closest('form');
+
         ClassicEditor
             .create(document.querySelector('#article-content'), {
                 toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|', 'insertTable', 'undo', 'redo']
@@ -94,6 +96,13 @@
                 previewContent.innerHTML = editor.getData() || 'Konten artikel akan tampil live di panel ini.';
                 editor.model.document.on('change:data', () => {
                     previewContent.innerHTML = editor.getData() || 'Konten artikel akan tampil live di panel ini.';
+                });
+
+                form.addEventListener('submit', (event) => {
+                    if (!editor.getData().trim()) {
+                        event.preventDefault();
+                        alert('Konten artikel tidak boleh kosong.');
+                    }
                 });
             })
             .catch((error) => {

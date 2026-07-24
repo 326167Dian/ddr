@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\OrganizationActivity;
 use App\Models\OrganizationArticle;
 use App\Models\OrganizationHistory;
+use App\Models\OrganizationNews;
 use App\Models\OrganizationProfile;
 use App\Models\OrganizationStructure;
 use Carbon\Carbon;
@@ -274,5 +275,28 @@ class FrontendController extends Controller
             ->firstOrFail();
 
         return view('frontend.article-detail', compact('profile', 'article'));
+    }
+
+    public function news(): View
+    {
+        $profile = OrganizationProfile::query()->first();
+        $news = OrganizationNews::query()
+            ->where('is_published', true)
+            ->orderBy('sort_order')
+            ->latest('published_at')
+            ->get();
+
+        return view('frontend.news', compact('profile', 'news'));
+    }
+
+    public function newsDetail(string $slug): View
+    {
+        $profile = OrganizationProfile::query()->first();
+        $newsItem = OrganizationNews::query()
+            ->where('slug', $slug)
+            ->where('is_published', true)
+            ->firstOrFail();
+
+        return view('frontend.news-detail', compact('profile', 'newsItem'));
     }
 }

@@ -321,6 +321,7 @@
                 <li><a href="{{ route('history') }}" class="item"><div class="icon-box bg-primary"><ion-icon name="time-outline"></ion-icon></div><div class="in">Sejarah</div></a></li>
                 <li><a href="{{ route('activities') }}" class="item"><div class="icon-box bg-primary"><ion-icon name="calendar-outline"></ion-icon></div><div class="in">Kegiatan</div></a></li>
                 <li><a href="{{ route('articles') }}" class="item"><div class="icon-box bg-primary"><ion-icon name="newspaper-outline"></ion-icon></div><div class="in">Artikel</div></a></li>
+                <li><a href="{{ route('news') }}" class="item"><div class="icon-box bg-primary"><ion-icon name="megaphone-outline"></ion-icon></div><div class="in">Berita</div></a></li>
             </ul>
         </div>
     </div>
